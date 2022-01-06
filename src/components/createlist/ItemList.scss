@@ -1,0 +1,20 @@
+.list-container {
+  width: 85%;
+  margin: 1rem auto;
+
+  .list-item-container {
+    margin-top: 1rem;
+    padding: 10px;
+    background-color: #fafafa;
+    border-radius: 5px;
+    color: black;
+  }
+  .list-bold {
+    font-weight: bold;
+  }
+  button {
+    padding: 2.5px;
+    margin: 5px 5px 0 0;
+    font-size: 12px;
+  }
+}

@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from "react";
 import uuid from "react-uuid";
 import "./CreateList.scss";
+import EditModal from "./EditModal";
+import EditTitle from "./EditTitle";
+import ItemList from "./ItemList";
 
-export default function CreateList() {
+export default function CreateList({ modal, setModal }) {
+  const [title, setTitle] = useState("새 단어장");
+  const [editTitle, setEditTitle] = useState(false);
   const [list, setList] = useState([]);
   const [newWord, setNewWord] = useState({ word: "", def: "" });
   const [editMode, setEditMode] = useState(false);
@@ -43,6 +48,7 @@ export default function CreateList() {
   const handleEditMode = (id) => {
     if (!editMode) {
       setEditMode(true);
+      setModal(true);
       const target = list.filter((item) => item.id === id);
       setEditWord(...target);
     } else {
@@ -54,7 +60,6 @@ export default function CreateList() {
     // 단어 수정 반영
     e.preventDefault();
     const id = editWord.id;
-    const itemToChange = list.find((item) => item.id === id);
     const indexOfItem = list.findIndex((item) => item.id === id);
     const newList = [...list];
     newList.splice(indexOfItem, 1, editWord);
@@ -65,75 +70,63 @@ export default function CreateList() {
   useEffect(() => {
     // 수정 모드 종료시 관련된 state 초기화
     if (!editMode) {
+      setModal(false);
       setEditWord({ word: "", def: "" });
     }
+
     return;
   }, [editMode]);
 
   return (
     <div className="container">
-      <div className={editMode ? "modal-active" : "modal"}>
-        <div className="modal-content">
-          <form onSubmit={handleEdit}>
-            <label htmlFor="edit-word">단어:</label>
-            <input
-              type="text"
-              name="word"
-              value={editWord.word}
-              onChange={handleChange}
-              required={true}
-            />
-            <label htmlFor="edit-def">의미:</label>
-            <input
-              type="text"
-              name="def"
-              value={editWord.def}
-              onChange={handleChange}
-              required={true}
-            />
-            <button type="submit">수정</button>
-            <button type="button" onClick={() => setEditMode(false)}>
-              취소
-            </button>
-          </form>
-        </div>
-      </div>
-      <div className="title">
-        <h1>단어장 관리</h1>
-      </div>
-      <div className="list-container">
-        {list.length > 0 &&
-          list.map((item) => {
-            return (
-              <div key={item.id} id={item.id}>
-                <p>단어: {item.word}</p>
-                <p>뜻: {item.def}</p>
-                <button onClick={() => handleEditMode(item.id)}>수정</button>
-                <button onClick={() => handleDelete(item.id)}>삭제</button>
-              </div>
-            );
-          })}
-      </div>
+      {editMode && (
+        <EditModal
+          editWord={editWord}
+          handleEdit={handleEdit}
+          handleChange={handleChange}
+          setEditMode={setEditMode}
+        />
+      )}
+      <EditTitle
+        title={title}
+        setTitle={setTitle}
+        editTitle={editTitle}
+        setEditTitle={setEditTitle}
+      />
+      <ItemList
+        list={list}
+        handleDelete={handleDelete}
+        handleEditMode={handleEditMode}
+      />
+      <h2>단어 추가하기</h2>
       <form onSubmit={handleSubmit}>
-        <label htmlFor="name">단어:</label>
-        <input
-          type="text"
-          value={newWord.word}
-          name="word"
-          onChange={handleChange}
-          required={true}
-        />
-        <label htmlFor="def">의미:</label>
-        <input
-          type="text"
-          value={newWord.def}
-          name="def"
-          onChange={handleChange}
-          required={true}
-        />
-        <button type="submit">추가</button>
+        <div className="form-items">
+          <label htmlFor="name">
+            <b>단어</b>
+          </label>
+          <input
+            type="text"
+            value={newWord.word}
+            name="word"
+            onChange={handleChange}
+            required={true}
+          />
+        </div>
+        <div className="form-items">
+          <label htmlFor="def">
+            <b>의미</b>
+          </label>
+          <input
+            type="text"
+            value={newWord.def}
+            name="def"
+            onChange={handleChange}
+            required={true}
+          />
+        </div>
+        <button type="submit">단어 추가</button>
       </form>
-      <button>단어장 완성</button>
+      <button className="btn-confirm">완성하기</button>
     </div>
   );
 }
