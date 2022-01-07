@@ -1,12 +1,27 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import CreateList from "./components/createlist/CreateList";
 import menuBars from "./assets/menu.svg";
+import Library from "./components/library/Library";
 
 function App() {
   const [menu, setMenu] = useState(false);
   const [modal, setModal] = useState(false);
   const [data, setData] = useState("");
+  const [currState, setCurrState] = useState("createList");
+
+  const menuControl = (e) => {
+    // 메뉴 state와 관련 UI 변경
+    const target = e.target.id;
+    setCurrState(target);
+    setMenu(false);
+  };
+
+  useEffect(() => {
+    // 로컬스토리지에서 데이터 가져오기
+    const localData = localStorage.getItem("data");
+    setData(JSON.parse(localData));
+  }, [currState]);
 
   return (
     <div className={"App" + (modal ? " modal-active" : "")}>
@@ -28,18 +43,27 @@ function App() {
       </header>
       <div className={menu ? "menuBars-list-active" : "menuBars-list"}>
         <ul>
-          <li>대시보드</li>
-          <li>라이브러리</li>
-          <li>만들기</li>
+          <li id="dashboard" onClick={menuControl}>
+            대시보드
+          </li>
+          <li id="library" onClick={menuControl}>
+            라이브러리
+          </li>
+          <li id="createList" onClick={menuControl}>
+            만들기
+          </li>
         </ul>
       </div>
       <div>
-        <CreateList modal={modal} setModal={setModal} />
-        {/* 단어장이 있으면 목록으로 보여줌. */}
-        {/* 단어장이 없으면 아무것도 없다는 것을 보여줌 */}
-        {/* 각 단어장 컴포넌트들은 공부하기와 테스트하기 기능이 있음. */}
-        {/* 공부하기 -> 단어 리스트 보여주기 */}
-        {/* 테스트 -> 플래시카드 형식으로 단어 보여주기 */}
+        {
+          {
+            dashboard: <h1>홈이에요</h1>,
+            createList: (
+              <CreateList setModal={setModal} setCurrState={setCurrState} />
+            ),
+            library: <Library data={data} />,
+          }[currState]
+        }
       </div>
     </div>
   );

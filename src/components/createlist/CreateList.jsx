@@ -5,13 +5,25 @@ import EditModal from "./EditModal";
 import EditTitle from "./EditTitle";
 import ItemList from "./ItemList";
 
-export default function CreateList({ modal, setModal }) {
+export default function CreateList({ setModal, setCurrState }) {
   const [title, setTitle] = useState("새 단어장");
   const [editTitle, setEditTitle] = useState(false);
   const [list, setList] = useState([]);
   const [newWord, setNewWord] = useState({ word: "", def: "" });
   const [editMode, setEditMode] = useState(false);
   const [editWord, setEditWord] = useState({ word: "", def: "" });
+
+  const saveData = () => {
+    let newData = [{ name: title, id: uuid(), items: list }];
+    if (localStorage.getItem("data") === null) {
+      localStorage.setItem("data", [JSON.stringify(newData)]);
+      setCurrState("library");
+    } else {
+      let oldData = JSON.parse(localStorage.getItem("data"));
+      localStorage.setItem("data", JSON.stringify(oldData.concat(newData)));
+      setCurrState("library");
+    }
+  };
 
   const handleChange = (e) => {
     const target = e.target.name;
@@ -73,7 +85,6 @@ export default function CreateList({ modal, setModal }) {
       setModal(false);
       setEditWord({ word: "", def: "" });
     }
-
     return;
   }, [editMode]);
 
@@ -126,7 +137,9 @@ export default function CreateList({ modal, setModal }) {
         </div>
         <button type="submit">단어 추가</button>
       </form>
-      <button className="btn-confirm">완성하기</button>
+      <button className="btn-confirm" onClick={saveData}>
+        완성하기
+      </button>
     </div>
   );
 }
