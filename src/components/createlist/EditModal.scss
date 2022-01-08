@@ -3,12 +3,12 @@
 }
 
 .modal-active {
-  display: block;
-  position: fixed;
-  z-index: 1;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  // display: block;
+  // position: fixed;
+  // z-index: 1;
+  // width: 100%;
+  // height: 100%;
+  // background-color: rgba(0, 0, 0, 0.5);
 }
 
 .modal-content {
@@ -22,7 +22,6 @@
     margin-top: 5px;
   }
   input {
-    border: #484b6a;
     border-width: 1px;
     border-style: solid;
     margin-top: 5px;

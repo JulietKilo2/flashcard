@@ -5,11 +5,9 @@
   margin: 0;
   padding: 0;
   word-wrap: break-word;
-  /* font-family: "Nanum Gothic", sans-serif; */
 }
 
 .App {
-  background-color: #e4e5f1;
   font-size: 16px;
 }
 
@@ -48,7 +46,7 @@ header > * {
 
 .menuBars-list-active {
   display: block;
-  background-color: #484b6a;
+  background-color: #284d8a;
   margin-top: 16px;
   padding: 8px;
 }
@@ -65,7 +63,7 @@ header > * {
 }
 
 button {
-  background-color: #484b6a;
+  background-color: #284d8a;
   border-style: none;
   border-radius: 4px;
   font-size: 16px;
