@@ -61,7 +61,9 @@ function App() {
             createList: (
               <CreateList setModal={setModal} setCurrState={setCurrState} />
             ),
-            library: <Library data={data} />,
+            library: (
+              <Library data={data} setData={setData} setModal={setModal} />
+            ),
           }[currState]
         }
       </div>
