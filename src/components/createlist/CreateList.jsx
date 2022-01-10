@@ -6,6 +6,8 @@ import EditTitle from "./EditTitle";
 import ItemList from "./ItemList";
 
 export default function CreateList({
+  data,
+  setData,
   setModal,
   setCurrState,
   editListFlag,
@@ -23,27 +25,32 @@ export default function CreateList({
   const saveData = () => {
     if (!editFlag) {
       // 수정모드가 아닌 새 단어장 입력시 코드
-      let newData = [{ name: title, id: uuid(), items: list }];
-      if (localStorage.getItem("data") === null) {
-        // 로컬스토리지에 데이터가 없을시 새로 생성
-        localStorage.setItem("data", [JSON.stringify(newData)]);
+      if (data === null) {
+        // 기존 데이터베이스가 없을시 새로 생성
+        const newDataSet = [{ name: title, id: uuid(), items: list }];
+        setData(newDataSet);
         setCurrState("library");
       } else {
-        // 로컬스토리지에 데이터가 있을시 업데이트
-        let oldData = JSON.parse(localStorage.getItem("data"));
-        localStorage.setItem("data", JSON.stringify(oldData.concat(newData)));
+        // 기존 데이터베이스가 있을시 업데이트
+        const newData = { name: title, id: uuid(), items: list };
+        const oldData = [...data];
+        const updateData = oldData.concat(newData);
+        setData(updateData);
         setCurrState("library");
       }
     } else {
       // 수정모드일시 실행되는 코드
-      let newData = [{ name: title, id: editID, items: list }];
-      // console.log(newData);
-      let oldData = JSON.parse(localStorage.getItem("data"));
-      // console.log(oldData);
-      const listIdx = oldData.findIndex((list) => list.id === editID);
-      const updateData = oldData.splice(listIdx, 1, newData);
-      setEditFlag(false);
-      localStorage.setItem("data", JSON.stringify(updateData));
+      let newData = { name: title, id: editID, items: list };
+      const oldData = [...data];
+      const modified = oldData.map((list) => {
+        if (list.id === editID) {
+          return (list = newData);
+        } else {
+          return list;
+        }
+      });
+      setData(modified);
+      setEditID("");
       setCurrState("library");
     }
   };
@@ -76,6 +83,7 @@ export default function CreateList({
       if (item.id !== id) {
         return item;
       }
+      return;
     });
     setList(newList);
   };
@@ -115,7 +123,7 @@ export default function CreateList({
     // 단어 목록 수정모드 플래그 확인
     if (editFlag) {
       // 수정모드 플래그가 켜졌을시 해당 목록의 내용물을 삽입하는 코드들
-      const localData = JSON.parse(localStorage.getItem("data"));
+      const localData = data;
       const listToEdit = localData.filter((list) => {
         return list.id === editID;
       });

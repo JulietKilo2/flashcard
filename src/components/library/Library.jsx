@@ -36,7 +36,7 @@ export default function Library({
     const newData = data.filter((item) => {
       return item.id !== removeID;
     });
-    localStorage.setItem("data", [JSON.stringify(newData)]); // localStorage 덮어씌우기
+    // localStorage.setItem("data", [JSON.stringify(newData)]); // localStorage 덮어씌우기
     setData(newData); // data state 변경
     handleCancel(); // 삭제관련 UI 초기화
   };

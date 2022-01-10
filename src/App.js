@@ -20,11 +20,19 @@ function App() {
   };
 
   useEffect(() => {
-    // 로컬스토리지에서 데이터 가져오기
-    const localData = localStorage.getItem("data");
     setEditListFlag(false); // 단어목록 수정 플래그 초기화
-    setData(JSON.parse(localData));
+    setEditListID(""); // 단어목록 수정 대상ID 초기화
   }, [currState]);
+
+  useEffect(() => {
+    const localData = localStorage.getItem("data");
+    setData(JSON.parse(localData));
+  }, []);
+
+  useEffect(() => {
+    // data 변경시 로컬스토리지에 변경사항 저장
+    localStorage.setItem("data", JSON.stringify(data));
+  }, [data]);
 
   return (
     <div className={"App" + (modal ? " modal-active" : "")}>
@@ -63,6 +71,8 @@ function App() {
             dashboard: <h1>홈이에요</h1>,
             createList: (
               <CreateList
+                data={data}
+                setData={setData}
                 setModal={setModal}
                 setCurrState={setCurrState}
                 editListFlag={editListFlag}
