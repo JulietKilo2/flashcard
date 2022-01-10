@@ -1,9 +1,22 @@
 import React, { useState } from "react";
 import "./Library.scss";
 
-export default function Library({ data, setData, setModal }) {
+export default function Library({
+  data,
+  setData,
+  setModal,
+  setCurrState,
+  setEditListFlag,
+  setEditListID,
+}) {
   const [localModal, setLocalModal] = useState(false);
   const [itemID, setItemID] = useState("");
+
+  const handleEditList = (id) => {
+    setEditListID(id);
+    setEditListFlag(true);
+    setCurrState("createList");
+  };
 
   const handleModal = (id) => {
     setItemID(id); // 삭제 staging 될 id를 state로 저장
@@ -53,7 +66,12 @@ export default function Library({ data, setData, setModal }) {
                 <p>단어 {item.items.length}개</p>
                 <div className="library-btn-container">
                   <button className="library-btn">테스트</button>
-                  <button className="library-btn">수정</button>
+                  <button
+                    className="library-btn"
+                    onClick={() => handleEditList(item.id)}
+                  >
+                    수정
+                  </button>
                   <button
                     className="library-btn warning"
                     onClick={() => handleModal(item.id)}

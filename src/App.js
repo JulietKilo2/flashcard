@@ -9,6 +9,8 @@ function App() {
   const [modal, setModal] = useState(false);
   const [data, setData] = useState("");
   const [currState, setCurrState] = useState("createList");
+  const [editListFlag, setEditListFlag] = useState(false);
+  const [editListID, setEditListID] = useState("");
 
   const menuControl = (e) => {
     // 메뉴 state와 관련 UI 변경
@@ -20,6 +22,7 @@ function App() {
   useEffect(() => {
     // 로컬스토리지에서 데이터 가져오기
     const localData = localStorage.getItem("data");
+    setEditListFlag(false); // 단어목록 수정 플래그 초기화
     setData(JSON.parse(localData));
   }, [currState]);
 
@@ -59,10 +62,22 @@ function App() {
           {
             dashboard: <h1>홈이에요</h1>,
             createList: (
-              <CreateList setModal={setModal} setCurrState={setCurrState} />
+              <CreateList
+                setModal={setModal}
+                setCurrState={setCurrState}
+                editListFlag={editListFlag}
+                editListID={editListID}
+              />
             ),
             library: (
-              <Library data={data} setData={setData} setModal={setModal} />
+              <Library
+                data={data}
+                setData={setData}
+                setModal={setModal}
+                setCurrState={setCurrState}
+                setEditListFlag={setEditListFlag}
+                setEditListID={setEditListID}
+              />
             ),
           }[currState]
         }

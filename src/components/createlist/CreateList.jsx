@@ -5,22 +5,45 @@ import EditModal from "./EditModal";
 import EditTitle from "./EditTitle";
 import ItemList from "./ItemList";
 
-export default function CreateList({ setModal, setCurrState }) {
+export default function CreateList({
+  setModal,
+  setCurrState,
+  editListFlag,
+  editListID,
+}) {
   const [title, setTitle] = useState("새 단어장");
   const [editTitle, setEditTitle] = useState(false);
   const [list, setList] = useState([]);
   const [newWord, setNewWord] = useState({ word: "", def: "" });
   const [editMode, setEditMode] = useState(false);
   const [editWord, setEditWord] = useState({ word: "", def: "" });
+  const [editFlag, setEditFlag] = useState(editListFlag);
+  const [editID, setEditID] = useState(editListID);
 
   const saveData = () => {
-    let newData = [{ name: title, id: uuid(), items: list }];
-    if (localStorage.getItem("data") === null) {
-      localStorage.setItem("data", [JSON.stringify(newData)]);
-      setCurrState("library");
+    if (!editFlag) {
+      // 수정모드가 아닌 새 단어장 입력시 코드
+      let newData = [{ name: title, id: uuid(), items: list }];
+      if (localStorage.getItem("data") === null) {
+        // 로컬스토리지에 데이터가 없을시 새로 생성
+        localStorage.setItem("data", [JSON.stringify(newData)]);
+        setCurrState("library");
+      } else {
+        // 로컬스토리지에 데이터가 있을시 업데이트
+        let oldData = JSON.parse(localStorage.getItem("data"));
+        localStorage.setItem("data", JSON.stringify(oldData.concat(newData)));
+        setCurrState("library");
+      }
     } else {
+      // 수정모드일시 실행되는 코드
+      let newData = [{ name: title, id: editID, items: list }];
+      // console.log(newData);
       let oldData = JSON.parse(localStorage.getItem("data"));
-      localStorage.setItem("data", JSON.stringify(oldData.concat(newData)));
+      // console.log(oldData);
+      const listIdx = oldData.findIndex((list) => list.id === editID);
+      const updateData = oldData.splice(listIdx, 1, newData);
+      setEditFlag(false);
+      localStorage.setItem("data", JSON.stringify(updateData));
       setCurrState("library");
     }
   };
@@ -88,6 +111,20 @@ export default function CreateList({ setModal, setCurrState }) {
     return;
   }, [editMode]);
 
+  useEffect(() => {
+    // 단어 목록 수정모드 플래그 확인
+    if (editFlag) {
+      // 수정모드 플래그가 켜졌을시 해당 목록의 내용물을 삽입하는 코드들
+      const localData = JSON.parse(localStorage.getItem("data"));
+      const listToEdit = localData.filter((list) => {
+        return list.id === editID;
+      });
+      setTitle(listToEdit[0].name);
+      setList(listToEdit[0].items);
+    }
+    return;
+  }, [editFlag]);
+
   return (
     <div className="container">
       {editMode && (
@@ -138,7 +175,7 @@ export default function CreateList({ setModal, setCurrState }) {
         <button type="submit">단어 추가</button>
       </form>
       <button className="btn-confirm" onClick={saveData}>
-        완성하기
+        {editFlag ? "수정완료" : "완성하기"}
       </button>
     </div>
   );
