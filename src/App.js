@@ -3,14 +3,16 @@ import "./App.css";
 import CreateList from "./components/createlist/CreateList";
 import menuBars from "./assets/menu.svg";
 import Library from "./components/library/Library";
+import Flashcard from "./components/flashcard/Flashcard";
 
 function App() {
   const [menu, setMenu] = useState(false);
   const [modal, setModal] = useState(false);
   const [data, setData] = useState("");
-  const [currState, setCurrState] = useState("createList");
+  const [currState, setCurrState] = useState("library");
   const [editListFlag, setEditListFlag] = useState(false);
   const [editListID, setEditListID] = useState("");
+  const [flashcardID, setFlashCardID] = useState("");
 
   const menuControl = (e) => {
     // 메뉴 state와 관련 UI 변경
@@ -37,7 +39,7 @@ function App() {
   return (
     <div className={"App" + (modal ? " modal-active" : "")}>
       <header>
-        <h1 className="app-title">Flashcard</h1>
+        <h1 className="app-title">Flashbook</h1>
         <nav>
           <img
             src={menuBars}
@@ -87,6 +89,14 @@ function App() {
                 setCurrState={setCurrState}
                 setEditListFlag={setEditListFlag}
                 setEditListID={setEditListID}
+                setFlashCardID={setFlashCardID}
+              />
+            ),
+            flashcard: (
+              <Flashcard
+                data={data}
+                flashcardID={flashcardID}
+                setCurrState={setCurrState}
               />
             ),
           }[currState]

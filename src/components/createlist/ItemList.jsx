@@ -15,9 +15,10 @@ export default function ItemList({ list, handleDelete, handleEditMode }) {
                 <span className="list-bold">뜻: </span>
                 {item.def}
               </p>
-
               <button onClick={() => handleEditMode(item.id)}>수정</button>
-              <button onClick={() => handleDelete(item.id)}>삭제</button>
+              <button className="delete" onClick={() => handleDelete(item.id)}>
+                삭제
+              </button>
             </div>
           );
         })}

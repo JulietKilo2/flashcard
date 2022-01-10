@@ -8,6 +8,7 @@ export default function Library({
   setCurrState,
   setEditListFlag,
   setEditListID,
+  setFlashCardID,
 }) {
   const [localModal, setLocalModal] = useState(false);
   const [itemID, setItemID] = useState("");
@@ -36,9 +37,13 @@ export default function Library({
     const newData = data.filter((item) => {
       return item.id !== removeID;
     });
-    // localStorage.setItem("data", [JSON.stringify(newData)]); // localStorage 덮어씌우기
     setData(newData); // data state 변경
     handleCancel(); // 삭제관련 UI 초기화
+  };
+
+  const handleTest = (id) => {
+    setFlashCardID(id);
+    setCurrState("flashcard");
   };
 
   return (
@@ -65,7 +70,12 @@ export default function Library({
                 <h2>{item.name}</h2>
                 <p>단어 {item.items.length}개</p>
                 <div className="library-btn-container">
-                  <button className="library-btn">테스트</button>
+                  <button
+                    className="library-btn"
+                    onClick={() => handleTest(item.id)}
+                  >
+                    테스트
+                  </button>
                   <button
                     className="library-btn"
                     onClick={() => handleEditList(item.id)}
