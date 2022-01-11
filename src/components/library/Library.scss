@@ -47,6 +47,24 @@ h1 {
   background-color: #ff7200;
 }
 
+.library-empty {
+  text-align: center;
+  font-size: 18px;
+  line-height: 2.5;
+  padding: 30px;
+  width: 300px;
+  margin: 3rem auto;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  border-radius: 8px;
+  img {
+    opacity: 0.75;
+    width: 80px;
+  }
+  button {
+    padding: 7.5px 15px;
+  }
+}
+
 @media screen and (min-width: 660px) {
   .lib-modal {
     margin-top: 15%;

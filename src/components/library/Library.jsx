@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./Library.scss";
+import leaveImg from "../../assets/leave.png";
 
 export default function Library({
   data,
@@ -48,7 +49,6 @@ export default function Library({
 
   return (
     <div>
-      <h1>라이브러리</h1>
       {localModal && (
         <div className="modal-active">
           <div className="lib-modal">
@@ -62,37 +62,48 @@ export default function Library({
           </div>
         </div>
       )}
-      <div className="library-container">
-        {data &&
-          data.map((item) => {
-            return (
-              <div key={item.id} className="library-card">
-                <h2>{item.name}</h2>
-                <p>단어 {item.items.length}개</p>
-                <div className="library-btn-container">
-                  <button
-                    className="library-btn"
-                    onClick={() => handleTest(item.id)}
-                  >
-                    테스트
-                  </button>
-                  <button
-                    className="library-btn"
-                    onClick={() => handleEditList(item.id)}
-                  >
-                    수정
-                  </button>
-                  <button
-                    className="library-btn warning"
-                    onClick={() => handleModal(item.id)}
-                  >
-                    삭제
-                  </button>
+      {data.length === 0 ? (
+        <div className="library-empty">
+          <img src={leaveImg} className="library-empty-image" alt="leave" />
+          <p>단어장이 비어있네요..</p>
+          <p>하나 만들어볼까요?</p>
+          <button onClick={() => setCurrState("createList")}>
+            단어장 만들기
+          </button>
+        </div>
+      ) : (
+        <div className="library-container">
+          {data &&
+            data.map((item) => {
+              return (
+                <div key={item.id} className="library-card">
+                  <h2>{item.name}</h2>
+                  <p>단어 {item.items.length}개</p>
+                  <div className="library-btn-container">
+                    <button
+                      className="library-btn"
+                      onClick={() => handleTest(item.id)}
+                    >
+                      테스트
+                    </button>
+                    <button
+                      className="library-btn"
+                      onClick={() => handleEditList(item.id)}
+                    >
+                      수정
+                    </button>
+                    <button
+                      className="library-btn warning"
+                      onClick={() => handleModal(item.id)}
+                    >
+                      삭제
+                    </button>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
-      </div>
+              );
+            })}
+        </div>
+      )}
     </div>
   );
 }
