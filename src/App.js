@@ -4,12 +4,13 @@ import CreateList from "./components/createlist/CreateList";
 import menuBars from "./assets/menu.svg";
 import Library from "./components/library/Library";
 import Flashcard from "./components/flashcard/Flashcard";
+import Home from "./components/home/Home";
 
 function App() {
   const [menu, setMenu] = useState(false);
   const [modal, setModal] = useState(false);
   const [data, setData] = useState("");
-  const [currState, setCurrState] = useState("library");
+  const [currState, setCurrState] = useState("home");
   const [editListFlag, setEditListFlag] = useState(false);
   const [editListID, setEditListID] = useState("");
   const [flashcardID, setFlashCardID] = useState("");
@@ -48,7 +49,7 @@ function App() {
             onClick={() => setMenu(!menu)}
           />
           <ul className="menu-list">
-            <li>대시보드</li>
+            <li>홈</li>
             <li>라이브러리</li>
             <li>만들기</li>
           </ul>
@@ -56,8 +57,8 @@ function App() {
       </header>
       <div className={menu ? "menuBars-list-active" : "menuBars-list"}>
         <ul>
-          <li id="dashboard" onClick={menuControl}>
-            대시보드
+          <li id="home" onClick={menuControl}>
+            홈
           </li>
           <li id="library" onClick={menuControl}>
             라이브러리
@@ -70,7 +71,7 @@ function App() {
       <div>
         {
           {
-            dashboard: <h1>홈이에요</h1>,
+            home: <Home />,
             createList: (
               <CreateList
                 data={data}
