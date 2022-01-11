@@ -62,7 +62,7 @@ export default function Library({
           </div>
         </div>
       )}
-      {data.length === 0 ? (
+      {data === null || data.length === 0 ? (
         <div className="library-empty">
           <img src={leaveImg} className="library-empty-image" alt="leave" />
           <p>단어장이 비어있네요..</p>
