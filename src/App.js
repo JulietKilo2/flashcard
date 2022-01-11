@@ -49,9 +49,15 @@ function App() {
             onClick={() => setMenu(!menu)}
           />
           <ul className="menu-list">
-            <li>홈</li>
-            <li>라이브러리</li>
-            <li>만들기</li>
+            <li id="home" onClick={menuControl}>
+              홈
+            </li>
+            <li id="library" onClick={menuControl}>
+              라이브러리
+            </li>
+            <li id="createList" onClick={menuControl}>
+              만들기
+            </li>
           </ul>
         </nav>
       </header>

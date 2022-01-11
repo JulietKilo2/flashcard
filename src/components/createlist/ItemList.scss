@@ -22,3 +22,26 @@
 .delete {
   background-color: #ff7200;
 }
+
+@media screen and (min-width: 768px) {
+  .list-container {
+    width: 760px;
+  }
+  .list-item-container {
+    display: flex;
+  }
+  .list-item-text-container {
+    flex: 9;
+    display: flex;
+    p:first-child {
+      flex: 1;
+      outline: 1px solid yelow;
+    }
+    p:nth-child(2) {
+      flex: 1;
+    }
+  }
+  .list-item-btn-container {
+    flex: 1;
+  }
+}

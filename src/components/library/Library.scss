@@ -4,9 +4,9 @@ h1 {
 }
 
 .library-container {
-  margin-top: 1rem;
-  display: flex;
-  flex-wrap: wrap;
+  margin: 1rem auto;
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
 }
 
 .library-card {
@@ -45,4 +45,26 @@ h1 {
 
 .warning {
   background-color: #ff7200;
+}
+
+@media screen and (min-width: 660px) {
+  .lib-modal {
+    margin-top: 15%;
+  }
+  .library-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (min-width: 960px) {
+  .library-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media screen and (min-width: 1260px) {
+  .library-container {
+    width: 1260px;
+    grid-template-columns: repeat(4, 1fr);
+  }
 }

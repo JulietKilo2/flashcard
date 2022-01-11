@@ -21,3 +21,13 @@
     padding: 10px;
   }
 }
+
+@media screen and (min-width: 768px) {
+  .home-article {
+    width: 760px;
+    flex-direction: row;
+    img {
+      width: 320px;
+    }
+  }
+}
