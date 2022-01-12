@@ -80,12 +80,14 @@ export default function Library({
                   <h2>{item.name}</h2>
                   <p>단어 {item.items.length}개</p>
                   <div className="library-btn-container">
-                    <button
-                      className="library-btn"
-                      onClick={() => handleTest(item.id)}
-                    >
-                      테스트
-                    </button>
+                    {item.items.length > 0 && (
+                      <button
+                        className="library-btn"
+                        onClick={() => handleTest(item.id)}
+                      >
+                        테스트
+                      </button>
+                    )}
                     <button
                       className="library-btn"
                       onClick={() => handleEditList(item.id)}
