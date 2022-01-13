@@ -39,7 +39,7 @@ function App() {
 
   return (
     <div className="App">
-      <div className={modal && "app-modal-active"}> </div>
+      <div className={modal ? "app-modal-active" : ""}> </div>
       <header>
         <h1 className="app-title">Flashbook</h1>
         <nav>
