@@ -19,7 +19,7 @@ export default function EditTitle({
         <h2>{title}</h2>
       )}
       <button onClick={() => setEditTitle(!editTitle)}>
-        {editTitle ? "확인" : "제목 수정"}
+        {editTitle ? "Save" : "Edit Title"}
       </button>
     </div>
   );

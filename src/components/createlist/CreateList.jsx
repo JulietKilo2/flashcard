@@ -13,7 +13,7 @@ export default function CreateList({
   editListFlag,
   editListID,
 }) {
-  const [title, setTitle] = useState("새 단어장");
+  const [title, setTitle] = useState("New List");
   const [editTitle, setEditTitle] = useState(false);
   const [list, setList] = useState([]);
   const [newWord, setNewWord] = useState({ word: "", def: "" });
@@ -24,14 +24,14 @@ export default function CreateList({
 
   const saveData = () => {
     if (!editFlag) {
-      // 수정모드가 아닌 새 단어장 입력시 코드
+      // if edit mode flag is off, create a new list of words
       if (data === null) {
-        // 기존 데이터베이스가 없을시 새로 생성
+        // if the local storage is empty, create a new dataset
         const newDataSet = [{ name: title, id: uuid(), items: list }];
         setData(newDataSet);
         setCurrState("library");
       } else {
-        // 기존 데이터베이스가 있을시 업데이트
+        // if the local storage alrady exists, then add the new list to the existing storage dataset
         const newData = { name: title, id: uuid(), items: list };
         const oldData = [...data];
         const updateData = oldData.concat(newData);
@@ -39,7 +39,7 @@ export default function CreateList({
         setCurrState("library");
       }
     } else {
-      // 수정모드일시 실행되는 코드
+      // if edit mode flag is on, execute the following lines
       let newData = { name: title, id: editID, items: list };
       const oldData = [...data];
       const modified = oldData.map((list) => {
@@ -59,17 +59,17 @@ export default function CreateList({
     const target = e.target.name;
     const value = e.target.value;
     if (!editMode) {
-      // 새 단어 입력
+      // if edit mode is off, then create a new word
       setNewWord({ ...newWord, [target]: value });
     } else if (editMode) {
-      // 기존 단어 수정
+      // if edit mode is on, then change the targt word
       setEditWord({ ...editWord, [target]: value });
     }
     return;
   };
 
   const handleSubmit = (e) => {
-    // 새 단어 추가
+    // add a new word
     e.preventDefault();
     const newItem = { ...newWord, id: uuid() };
     const newList = [...list, newItem];
@@ -78,7 +78,7 @@ export default function CreateList({
   };
 
   const handleDelete = (id) => {
-    // 목록에서 단어 삭제
+    // remove a word from the list
     const newList = list.filter((item) => {
       if (item.id !== id) {
         return item;
@@ -100,7 +100,7 @@ export default function CreateList({
   };
 
   const handleEdit = (e) => {
-    // 단어 수정 반영
+    // apply the changes made from the edit mode
     e.preventDefault();
     const id = editWord.id;
     const indexOfItem = list.findIndex((item) => item.id === id);
@@ -111,7 +111,7 @@ export default function CreateList({
   };
 
   useEffect(() => {
-    // 수정 모드 종료시 관련된 state 초기화
+    // resets all relevant states tied with editing mode
     if (!editMode) {
       setModal(false);
       setEditWord({ word: "", def: "" });
@@ -120,9 +120,9 @@ export default function CreateList({
   }, [editMode]);
 
   useEffect(() => {
-    // 단어 목록 수정모드 플래그 확인
+    // checks if the edit mode flag is on
     if (editFlag) {
-      // 수정모드 플래그가 켜졌을시 해당 목록의 내용물을 삽입하는 코드들
+      // if the edit mode flag is on, insert targted list data
       const localData = data;
       const listToEdit = localData.filter((list) => {
         return list.id === editID;
@@ -154,11 +154,11 @@ export default function CreateList({
         handleDelete={handleDelete}
         handleEditMode={handleEditMode}
       />
-      <h2>단어 추가하기</h2>
+      <h2>Add</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-items">
           <label htmlFor="name">
-            <b>단어</b>
+            <b>Word</b>
           </label>
           <input
             type="text"
@@ -170,7 +170,7 @@ export default function CreateList({
         </div>
         <div className="form-items">
           <label htmlFor="def">
-            <b>의미</b>
+            <b>Def</b>
           </label>
           <input
             type="text"
@@ -180,10 +180,10 @@ export default function CreateList({
             required={true}
           />
         </div>
-        <button type="submit">단어 추가</button>
+        <button type="submit">Add</button>
       </form>
       <button className="btn-confirm" onClick={saveData}>
-        {editFlag ? "수정완료" : "완성하기"}
+        {editFlag ? "Save Changes" : "Save"}
       </button>
     </div>
   );

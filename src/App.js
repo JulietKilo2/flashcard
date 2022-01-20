@@ -16,15 +16,15 @@ function App() {
   const [flashcardID, setFlashCardID] = useState("");
 
   const menuControl = (e) => {
-    // 메뉴 state와 관련 UI 변경
+    // controls menu state & change UI based on the state
     const target = e.target.id;
     setCurrState(target);
     setMenu(false);
   };
 
   useEffect(() => {
-    setEditListFlag(false); // 단어목록 수정 플래그 초기화
-    setEditListID(""); // 단어목록 수정 대상ID 초기화
+    setEditListFlag(false); // resets list editing flag
+    setEditListID(""); // resets the id of target word to be edited
   }, [currState]);
 
   useEffect(() => {
@@ -33,7 +33,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    // data 변경시 로컬스토리지에 변경사항 저장
+    // save new dataset to local storage on data change
     localStorage.setItem("data", JSON.stringify(data));
   }, [data]);
 
@@ -51,13 +51,13 @@ function App() {
           />
           <ul className="menu-list">
             <li id="home" onClick={menuControl}>
-              홈
+              Home
             </li>
             <li id="library" onClick={menuControl}>
-              라이브러리
+              Library
             </li>
             <li id="createList" onClick={menuControl}>
-              만들기
+              Create
             </li>
           </ul>
         </nav>
@@ -65,13 +65,13 @@ function App() {
       <div className={menu ? "menuBars-list-active" : "menuBars-list"}>
         <ul>
           <li id="home" onClick={menuControl}>
-            홈
+            Home
           </li>
           <li id="library" onClick={menuControl}>
-            라이브러리
+            Library
           </li>
           <li id="createList" onClick={menuControl}>
-            만들기
+            Create
           </li>
         </ul>
       </div>

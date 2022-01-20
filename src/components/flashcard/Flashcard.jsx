@@ -33,7 +33,7 @@ export default function Flashcard({ data, flashcardID, setCurrState }) {
       <div className="flashcard-list-name">{wordListDB.name}</div>
       <div className="flashcard-card">
         <div className="flashcard-indicator">
-          <div>{flip ? "뜻" : "단어"}</div>
+          <div>{flip ? "Word" : "Def"}</div>
           <div>
             {idx + 1}/{wordList.length}
           </div>
@@ -48,13 +48,13 @@ export default function Flashcard({ data, flashcardID, setCurrState }) {
             className={idx === 0 ? "hidden" : ""}
             onClick={() => handleIndex("minus")}
           >
-            이전
+            Prev
           </button>
-          <button onClick={() => setFlip(!flip)}>뒤집기</button>
+          <button onClick={() => setFlip(!flip)}>Flip!</button>
           {idx + 1 === wordList.length ? (
-            <button onClick={() => setCurrState("library")}>완성</button>
+            <button onClick={() => setCurrState("library")}>Finish</button>
           ) : (
-            <button onClick={() => handleIndex("plus")}>다음</button>
+            <button onClick={() => handleIndex("plus")}>Next</button>
           )}
         </div>
       </div>

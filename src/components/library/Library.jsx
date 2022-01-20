@@ -21,13 +21,13 @@ export default function Library({
   };
 
   const handleModal = (id) => {
-    setItemID(id); // 삭제 staging 될 id를 state로 저장
+    setItemID(id); // save the id of target (to be removed) list to the state
     setModal(true);
     setLocalModal(true);
   };
 
   const handleCancel = () => {
-    // 삭제 staging 취소
+    // cancelling the removing process
     setItemID("");
     setModal(false);
     setLocalModal(false);
@@ -38,8 +38,8 @@ export default function Library({
     const newData = data.filter((item) => {
       return item.id !== removeID;
     });
-    setData(newData); // data state 변경
-    handleCancel(); // 삭제관련 UI 초기화
+    setData(newData); // update the data state
+    handleCancel(); // resets the delete interface
   };
 
   const handleTest = (id) => {
@@ -52,12 +52,12 @@ export default function Library({
       {localModal && (
         <div className="modal-active">
           <div className="lib-modal">
-            <h3>정말 삭제하시겠습니까?</h3>
+            <h3>Are you sure?</h3>
             <div className="modal-btn-container">
               <button className="warning" onClick={handleDelete}>
-                삭제
+                Delete
               </button>
-              <button onClick={handleCancel}>취소</button>
+              <button onClick={handleCancel}>Cancel</button>
             </div>
           </div>
         </div>
@@ -65,11 +65,9 @@ export default function Library({
       {data === null || data.length === 0 ? (
         <div className="library-empty">
           <img src={leaveImg} className="library-empty-image" alt="leave" />
-          <p>단어장이 비어있네요..</p>
-          <p>하나 만들어볼까요?</p>
-          <button onClick={() => setCurrState("createList")}>
-            단어장 만들기
-          </button>
+          <p>Your library is empty..</p>
+          <p>Let's make a new list!</p>
+          <button onClick={() => setCurrState("createList")}>Create</button>
         </div>
       ) : (
         <div className="library-container">
@@ -78,27 +76,27 @@ export default function Library({
               return (
                 <div key={item.id} className="library-card">
                   <h2>{item.name}</h2>
-                  <p>단어 {item.items.length}개</p>
+                  <p>{item.items.length} words</p>
                   <div className="library-btn-container">
                     {item.items.length > 0 && (
                       <button
                         className="library-btn"
                         onClick={() => handleTest(item.id)}
                       >
-                        테스트
+                        Flash!
                       </button>
                     )}
                     <button
                       className="library-btn"
                       onClick={() => handleEditList(item.id)}
                     >
-                      수정
+                      Edit
                     </button>
                     <button
                       className="library-btn warning"
                       onClick={() => handleModal(item.id)}
                     >
-                      삭제
+                      Delete
                     </button>
                   </div>
                 </div>

@@ -11,7 +11,7 @@ export default function EditModal({
     <div className="modal-active">
       <div className="modal-content">
         <form onSubmit={handleEdit}>
-          <label htmlFor="edit-word">단어:</label>
+          <label htmlFor="edit-word">Word:</label>
           <input
             type="text"
             name="word"
@@ -19,7 +19,7 @@ export default function EditModal({
             onChange={handleChange}
             required={true}
           />
-          <label htmlFor="edit-def">의미:</label>
+          <label htmlFor="edit-def">Def:</label>
           <input
             type="text"
             name="def"
@@ -27,9 +27,9 @@ export default function EditModal({
             onChange={handleChange}
             required={true}
           />
-          <button type="submit">수정</button>
+          <button type="submit">Save</button>
           <button type="button" onClick={() => setEditMode(false)}>
-            취소
+            Cancel
           </button>
         </form>
       </div>
